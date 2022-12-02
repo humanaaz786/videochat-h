@@ -1,5 +1,26 @@
 const socket = io("/");
 
+const myVideo=document.createElement("video");
+myVideo.muted=true;
+
+let mystream
+
+navigator.mediaDevices.getUserMedia({
+    audio:true,
+    video:true
+})
+.then((stream)=>{
+    mystream=stream;
+})
+
+function addVideoStream(video,stream){
+    video.srcObject=stream;
+    video.addEventListener("loadedmetadata",()=>{
+        video.play();
+        $("#video_grid").append(video)
+    });
+}
+
 var peer = new Peer(undefined, {
     path: "/peerjs",
     host: "/",
